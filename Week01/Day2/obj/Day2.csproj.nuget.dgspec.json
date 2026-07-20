@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\PC\\Desktop\\ppu\\BinX-Backend-Internship\\Week01\\Day1\\HelloBinX\\HelloBinX.csproj": {}
+    "C:\\Users\\PC\\Desktop\\ppu\\BinX-Backend-Internship\\Week01\\Day2\\Day2.csproj": {}
   },
   "projects": {
-    "C:\\Users\\PC\\Desktop\\ppu\\BinX-Backend-Internship\\Week01\\Day1\\HelloBinX\\HelloBinX.csproj": {
+    "C:\\Users\\PC\\Desktop\\ppu\\BinX-Backend-Internship\\Week01\\Day2\\Day2.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\PC\\Desktop\\ppu\\BinX-Backend-Internship\\Week01\\Day1\\HelloBinX\\HelloBinX.csproj",
-        "projectName": "HelloBinX",
-        "projectPath": "C:\\Users\\PC\\Desktop\\ppu\\BinX-Backend-Internship\\Week01\\Day1\\HelloBinX\\HelloBinX.csproj",
+        "projectUniqueName": "C:\\Users\\PC\\Desktop\\ppu\\BinX-Backend-Internship\\Week01\\Day2\\Day2.csproj",
+        "projectName": "Day2",
+        "projectPath": "C:\\Users\\PC\\Desktop\\ppu\\BinX-Backend-Internship\\Week01\\Day2\\Day2.csproj",
         "packagesPath": "C:\\Users\\PC\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\PC\\Desktop\\ppu\\BinX-Backend-Internship\\Week01\\Day1\\HelloBinX\\obj\\",
+        "outputPath": "C:\\Users\\PC\\Desktop\\ppu\\BinX-Backend-Internship\\Week01\\Day2\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\PC\\AppData\\Roaming\\NuGet\\NuGet.Config"
