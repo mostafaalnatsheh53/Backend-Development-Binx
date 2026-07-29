@@ -1,4 +1,7 @@
-﻿// *2.1 Deferred vs. Immediate Execution
+﻿// *Day 2 — Advanced LINQ & Deferred Execution — 8 hours
+
+
+// *2.1 Deferred vs. Immediate Execution
 // *Deferred Execution
 /*List<int> numbers = new() { 1, 2, 3 };
 

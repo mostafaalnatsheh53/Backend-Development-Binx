@@ -1,4 +1,5 @@
-﻿
+﻿// *Day 1 — Generics & Advanced Collections — 8 hours
+
 using System;
 // * 1.2 Writing Generic Methods and Classes
 /*class Program
