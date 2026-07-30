@@ -1,3 +1,5 @@
+// *Lab 1: Create and run the Web API project
+
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
@@ -42,6 +44,7 @@ app.MapGet("/weatherforecast", () =>
     return forecast;
 })
 .WithName("GetWeatherForecast");
+// *Lab 4: Minimal API - GET all products
 
 app.MapGet("/products", () =>
 {
