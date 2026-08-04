@@ -1,48 +1,134 @@
-# Day 2 – SQL Server Schema Design & Normalization
+# Day 3 - Entity Framework Core Setup & Code-First Migrations
 
 ## Overview
 
-This day focused on designing a well-structured relational database schema using SQL Server normalization principles. The goal was to eliminate data redundancy, improve data consistency, and build clear relationships between tables.
+This project demonstrates how to integrate Entity Framework Core with SQL Server using the Code-First approach. It includes creating entity models, configuring the DbContext, setting up the database connection, generating migrations, and applying them to create the database schema.
+
+---
 
 ## Learning Objectives
 
-* Understand why database normalization is important.
-* Apply First, Second, and Third Normal Forms (1NF, 2NF, 3NF).
-* Design primary keys and foreign keys.
-* Create relationships between database tables.
-* Select appropriate SQL Server data types.
+- Install and configure Entity Framework Core with SQL Server.
+- Define entity classes and configure relationships.
+- Create and configure a DbContext.
+- Use Code-First Migrations.
+- Configure SQL Server connection strings.
+- Apply migrations to create the database.
 
-## Hands-On Lab
+---
 
-The lab included the following tasks:
+## Technologies Used
 
-* Identified the required database entities and their attributes.
-* Applied 1NF, 2NF, and 3NF to remove redundancy.
-* Defined primary and foreign key relationships.
-* Created an Entity Relationship Diagram (ERD).
-* Selected appropriate data types for every column, using `DECIMAL(10,2)` for monetary values.
+- .NET
+- ASP.NET Core Web API
+- Entity Framework Core
+- SQL Server Express
+- EF Core Migrations
+
+---
+
+## Project Structure
+
+```
+Day3
+│
+├── Data
+│   └── AppDbContext.cs
+│
+├── Models
+│   ├── Customer.cs
+│   ├── Product.cs
+│   ├── Order.cs
+│   └── OrderItem.cs
+│
+├── Migrations
+│
+├── Program.cs
+└── appsettings.json
+```
+
+---
 
 ## Database Entities
 
-* Customers
-* Products
-* Orders
-* OrderItems
+- Customer
+- Product
+- Order
+- OrderItem
 
-## Relationships
+Relationships:
 
-* One Customer → Many Orders
-* One Order → Many OrderItems
-* One Product → Many OrderItems
+- Customer → Orders (One-to-Many)
+- Order → OrderItems (One-to-Many)
+- Product → OrderItems (One-to-Many)
 
-## Key Concepts Learned
+---
 
-* Database normalization reduces duplicated data and prevents update anomalies.
-* Primary keys uniquely identify each record.
-* Foreign keys enforce relationships and maintain referential integrity.
-* Proper data type selection improves storage efficiency and data accuracy.
-* Monetary values should use `DECIMAL` instead of `FLOAT`.
+## EF Core Setup
+
+Installed the required packages:
+
+```bash
+dotnet add package Microsoft.EntityFrameworkCore.SqlServer
+dotnet add package Microsoft.EntityFrameworkCore.Tools
+```
+
+---
+
+## Connection String
+
+Configured SQL Server Express in `appsettings.json`:
+
+```json
+"ConnectionStrings": {
+  "DefaultConnection": "Server=localhost\\SQLEXPRESS;Database=Day3Db;Trusted_Connection=True;TrustServerCertificate=True;"
+}
+```
+
+---
+
+## Register DbContext
+
+Registered the DbContext in `Program.cs`:
+
+```csharp
+builder.Services.AddDbContext<AppDbContext>(options =>
+{
+    options.UseSqlServer(
+        builder.Configuration.GetConnectionString("DefaultConnection"));
+});
+```
+
+---
+
+## Create Migration
+
+```bash
+dotnet ef migrations add InitialCreate
+```
+
+---
+
+## Apply Migration
+
+```bash
+dotnet ef database update
+```
+
+---
+
+## What I Learned
+
+- How Entity Framework Core works.
+- How to create entity models.
+- How to configure DbContext.
+- How to connect an ASP.NET Core application to SQL Server.
+- How Code-First Migrations work.
+- How to create and update a database using EF Core.
+- The importance of connection strings and application configuration.
+
+---
 
 ## Outcome
 
-Designed a normalized SQL Server database schema with clear relationships, proper key constraints, and suitable data types, providing a strong foundation for building scalable RESTful APIs.
+Successfully configured Entity Framework Core with SQL Server, created the database schema using Code-First Migrations, and prepared the project for implementing CRUD operations in future lessons.
