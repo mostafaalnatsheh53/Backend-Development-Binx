@@ -1,55 +1,76 @@
-# Day 4 — Input Validation with FluentValidation
+# Day 5 — API Security Hardening
 
 ## Overview
 
-Implemented input validation for the ASP.NET Core API using **FluentValidation** to ensure incoming requests follow defined validation and business rules.
+Implemented security hardening measures for the ASP.NET Core API to protect sensitive endpoints and reduce common security risks.
 
 ## What I Learned
 
-- DataAnnotations vs FluentValidation
-- Creating validators with `AbstractValidator`
-- Using `RuleFor` to define validation rules
-- Integrating FluentValidation into the ASP.NET Core pipeline
-- Returning structured `400 Bad Request` responses
-- Validating Create and Update requests
-- Testing validation rules with Postman
+- Configuring Rate Limiting in ASP.NET Core
+- Applying stricter rate limits to sensitive endpoints
+- Configuring named CORS policies
+- Enabling HTTPS Redirection and HSTS
+- Adding Content-Security-Policy headers
+- Preventing SQL Injection with Entity Framework Core
+- Understanding parameterized queries
+- Testing API security configurations with Postman
 
 ## Implementation
 
-### CreateOrderRequest
+### Rate Limiting
 
-Implemented validation rules for:
+Configured separate rate limiting policies for general endpoints and the login endpoint.
 
-- `CustomerId` must be greater than `0`
-- `Total` must be greater than `0`
-- `OrderDate` cannot be in the future
+- General endpoints: `30 requests per minute`
+- Login endpoint: `5 requests per minute`
+- Exceeded limits return `429 Too Many Requests`
 
-### UpdateOrderRequest
+### CORS
 
-Implemented validation for:
+Implemented a named CORS policy called `AllowFrontend`.
 
-- `CustomerId` must be greater than `0`
+- Allows only the specified frontend origin
+- Allows required HTTP headers
+- Allows required HTTP methods
+- Verified allowed and disallowed origins
 
-## API Validation
+### Security Headers
 
-FluentValidation was registered in the ASP.NET Core pipeline so invalid requests are automatically rejected before reaching the controller logic.
+Configured security-related middleware including:
 
-Validation errors are returned using a structured response containing:
+- HTTPS Redirection
+- HSTS
+- Content-Security-Policy
 
-- HTTP Status Code `400`
-- Field name
-- Specific validation error message
-- Trace ID
+These settings provide additional protection against common web security risks.
+
+### SQL Injection Prevention
+
+Reviewed the API codebase to ensure Entity Framework Core queries use parameterization by default.
+
+Confirmed that:
+
+- LINQ queries are parameterized automatically
+- No unsafe raw SQL queries using unparameterized string interpolation are used
+- `FromSqlRaw` with direct user input is avoided
 
 ## Testing
 
-Tested the validation rules using **Postman** by sending invalid requests and verifying that each rule returns the expected error message.
+Tested the implemented security features using **Postman**, including:
+
+- Rate limiting on the login endpoint
+- General endpoint rate limiting
+- CORS origin configuration
+- API responses after exceeding request limits
+- Review of database queries for SQL Injection risks
 
 ## Technologies
 
 - C#
 - ASP.NET Core
-- FluentValidation
+- ASP.NET Core Identity
+- JWT Authentication
 - Entity Framework Core
+- FluentValidation
 - SQL Server
 - Postman

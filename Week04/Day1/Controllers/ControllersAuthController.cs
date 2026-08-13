@@ -29,7 +29,7 @@ public class AuthController : ControllerBase
 
         var user = new IdentityUser
         {
-            UserName = request.Email,
+            Password = request.Password,
             Email = request.Email
         };
 

@@ -3,14 +3,14 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace Day1.Data;
-
+// This class represents the application's database context, which is responsible for managing the database connection and providing access to the entities in the application.
 public class AppDbContext : IdentityDbContext
 {
     public AppDbContext(DbContextOptions options)
         : base(options)
     {
     }
-
+    // Add DbSet properties for your entities here.
     public DbSet<Customer> Customers => Set<Customer>();
     public DbSet<Product> Products => Set<Product>();
     public DbSet<Order> Orders => Set<Order>();
