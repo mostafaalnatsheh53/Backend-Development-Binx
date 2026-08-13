@@ -1,29 +1,34 @@
-# Day 1 — ASP.NET Core Identity & User Registration
+# Day 1 — ASP.NET Core Identity & User Registration 🔐
 
 ## Overview
 
-In this day, I learned how to use ASP.NET Core Identity to manage users and implement user registration in an ASP.NET Core Web API.
+Day 1 focused on integrating ASP.NET Core Identity into the API and implementing secure user registration.
 
-## Topics Covered
+## What I Learned
 
-- ASP.NET Core Identity
-- Identity with Entity Framework Core
-- `IdentityDbContext`
-- `IdentityUser` and `IdentityRole`
-- `UserManager`
-- User Registration
-- Password Hashing
-- PBKDF2 and Salt
+* 🔐 ASP.NET Core Identity and its role in user management
+* 🗄️ Integrating Identity with Entity Framework Core
+* 👤 Using `IdentityUser` and `IdentityRole`
+* 🔑 Secure password hashing with Identity
+* 📝 Implementing a user registration endpoint
 
 ## Implementation
 
-### Identity Setup
+* Extended `AppDbContext` with `IdentityDbContext`
+* Configured ASP.NET Core Identity in `Program.cs`
+* Added Identity migrations to the database
+* Implemented user registration using `UserManager`
+* Tested valid and invalid registration requests using Postman
 
-Updated `AppDbContext` to inherit from `IdentityDbContext` and added Identity services in `Program.cs`.
+## Technologies
 
-### User Registration
+* C#
+* ASP.NET Core
+* ASP.NET Core Identity
+* Entity Framework Core
+* SQL Server
+* Postman
 
-Implemented:
+## Key Takeaway
 
-```http
-POST /api/Auth/register
+Built the authentication foundation of the API using ASP.NET Core Identity and secure password management.

@@ -1,45 +1,36 @@
-# Day 2 — JWT Authentication & Token Issuance
+# Day 2 — JWT Authentication & Token Issuance 🔑
 
 ## Overview
 
-This day focused on implementing authentication using ASP.NET Core Identity and JSON Web Tokens (JWT).
+Day 2 focused on implementing JWT-based authentication and issuing access tokens after a successful login.
 
-The API was extended with user registration, login, JWT token issuance, Bearer authentication, claims, and token expiration.
+## What I Learned
 
----
+* 🔑 JWT structure and claims
+* 👤 User authentication with ASP.NET Core Identity
+* 🎟️ Creating and signing JWT tokens
+* 🛡️ Configuring JWT Bearer Authentication
+* ⏱️ Token expiration and lifetime validation
 
-## Learning Objectives
+## Implementation
 
-- Understand JWT structure and claims.
-- Implement user registration and login using ASP.NET Core Identity.
-- Issue a signed JWT after successful authentication.
-- Configure JWT Bearer authentication.
-- Validate JWT issuer, audience, signing key, and expiration.
-- Understand short-lived access tokens and refresh tokens.
+* Implemented a login endpoint using `SignInManager`
+* Verified user credentials securely
+* Created JWT claims for authenticated users
+* Generated signed JWT access tokens
+* Configured JWT Bearer authentication in `Program.cs`
+* Configured issuer, audience, signing key, and token lifetime
+* Tested authentication using Postman
 
----
+## Technologies
 
-## Topics Covered
+* C#
+* ASP.NET Core
+* ASP.NET Core Identity
+* JWT Bearer Authentication
+* Entity Framework Core
+* Postman
 
-### 1. JWT Structure and Claims
+## Key Takeaway
 
-A JWT consists of three parts:
-
-- Header
-- Payload
-- Signature
-
-The payload contains claims such as the user's ID and email.
-
-The JWT is signed, not encrypted, so sensitive information should not be stored in its claims.
-
----
-
-### 2. User Registration
-
-Implemented a registration endpoint using ASP.NET Core Identity.
-
-**Endpoint:**
-
-```http
-POST /api/Auth/register
+Implemented a complete JWT authentication flow that allows authenticated users to securely access protected API resources.

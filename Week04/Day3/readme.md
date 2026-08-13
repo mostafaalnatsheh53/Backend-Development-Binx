@@ -1,39 +1,44 @@
-# Day 1 — Authentication & Authorization with ASP.NET Core Identity
+# Day 3 — Authorization & Role-Based Access Control 🛡️
 
 ## Overview
 
-This day focused on implementing authentication and authorization in an ASP.NET Core Web API using ASP.NET Core Identity, JWT authentication, roles, claims, and policy-based authorization.
+Day 3 focused on protecting API endpoints and controlling access based on user roles and permissions.
 
-The implementation was tested using Postman to verify protected routes, role-based access, policy-based access, and JWT token handling.
+## What I Learned
 
----
+* 🛡️ Using `[Authorize]` to protect endpoints
+* 👤 Role-Based Access Control (RBAC)
+* 🔐 `User` and `Admin` roles
+* 📋 Claims-Based and Policy-Based Authorization
+* 🚫 Difference between `401 Unauthorized` and `403 Forbidden`
 
-## Learning Objectives
+## Implementation
 
-By the end of this day, the following concepts were implemented:
+* Protected API endpoints using `[Authorize]`
+* Created `User` and `Admin` roles
+* Assigned roles to users using ASP.NET Core Identity
+* Restricted the `Delete` endpoint to the `Admin` role
+* Configured a `CanManageOrders` authorization policy
+* Tested protected endpoints with JWT Bearer tokens in Postman
 
-- ASP.NET Core Identity
-- User registration and login
-- JWT authentication
-- JWT claims
-- Role-based authorization
-- Claims-based authorization
-- Policy-based authorization
-- Protecting API endpoints with `[Authorize]`
-- Restricting endpoints to specific roles
-- Testing `401 Unauthorized` and `403 Forbidden`
-- Managing roles using `UserManager` and `RoleManager`
-- Reusing JWT tokens in Postman
+## Testing
 
----
+Tested:
 
-# 1. ASP.NET Core Identity
+* Requests without a token → `401 Unauthorized`
+* Authenticated users without permission → `403 Forbidden`
+* Admin users accessing restricted endpoints → Allowed
 
-ASP.NET Core Identity was used to manage application users and roles.
+## Technologies
 
-Identity was connected to Entity Framework Core using the application database context.
+* C#
+* ASP.NET Core
+* ASP.NET Core Identity
+* JWT Bearer Authentication
+* Role-Based Authorization
+* Policy-Based Authorization
+* Postman
 
-```csharp
-builder.Services.AddIdentity<IdentityUser, IdentityRole>()
-    .AddEntityFrameworkStores<AppDbContext>()
-    .AddDefaultTokenProviders();
+## Key Takeaway
+
+Implemented authorization on top of JWT authentication, ensuring that users can only access API operations allowed by their roles and permissions.
