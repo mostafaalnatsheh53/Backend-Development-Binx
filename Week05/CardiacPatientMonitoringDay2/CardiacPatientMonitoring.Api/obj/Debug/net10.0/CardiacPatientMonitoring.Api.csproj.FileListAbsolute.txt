@@ -653,3 +653,4 @@ C:\Users\PC\OneDrive\Desktop\ppu\BinX-Backend-Internship\Week05\CardiacPatientMo
 C:\Users\PC\OneDrive\Desktop\ppu\BinX-Backend-Internship\Week05\CardiacPatientMonitoringDay2\CardiacPatientMonitoring.Api\obj\Debug\net10.0\CardiacPatientMonitoring.Api.pdb
 C:\Users\PC\OneDrive\Desktop\ppu\BinX-Backend-Internship\Week05\CardiacPatientMonitoringDay2\CardiacPatientMonitoring.Api\obj\Debug\net10.0\CardiacPatientMonitoring.Api.genruntimeconfig.cache
 C:\Users\PC\OneDrive\Desktop\ppu\BinX-Backend-Internship\Week05\CardiacPatientMonitoringDay2\CardiacPatientMonitoring.Api\obj\Debug\net10.0\ref\CardiacPatientMonitoring.Api.dll
+C:\Users\PC\OneDrive\Desktop\ppu\BinX-Backend-Internship\Week05\CardiacPatientMonitoringDay2\CardiacPatientMonitoring.Api\bin\Debug\net10.0\Microsoft.EntityFrameworkCore.InMemory.dll

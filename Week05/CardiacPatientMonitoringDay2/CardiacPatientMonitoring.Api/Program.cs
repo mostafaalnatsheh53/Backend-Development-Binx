@@ -13,12 +13,12 @@ using Microsoft.OpenApi;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Register MVC pipeline and API metadata.
 builder.Services.AddControllers();
 builder.Services.AddOpenApi();
 builder.Services.AddEndpointsApiExplorer();
 
 builder.Services.AddSwaggerGen(o =>
+{
     o.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
     {
         Name = "Authorization",
@@ -27,11 +27,25 @@ builder.Services.AddSwaggerGen(o =>
         BearerFormat = "JWT",
         In = ParameterLocation.Header,
         Description = "Enter: Bearer {your JWT token}"
-    }));
+    });
+
+    o.AddSecurityRequirement(document => new OpenApiSecurityRequirement
+    {
+        [new OpenApiSecuritySchemeReference("Bearer", document)] = []
+    });
+});
 
 builder.Services.AddDbContext<ApplicationDbContext>(o =>
+{
+    if (builder.Environment.IsEnvironment("Testing"))
+    {
+        o.UseInMemoryDatabase("CardiacPatientMonitoringTestDb");
+        return;
+    }
+
     o.UseSqlServer(
-        builder.Configuration.GetConnectionString("DefaultConnection")));
+        builder.Configuration.GetConnectionString("DefaultConnection"));
+});
 
 builder.Services.AddIdentityCore<ApplicationUser>(o =>
 {
@@ -65,7 +79,6 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 
 builder.Services.AddAuthorization();
 
-// Dependency injection: controllers receive interfaces, while the app resolves real implementations.
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<IPatientService, PatientService>();
 builder.Services.AddScoped<IVitalSignService, VitalSignService>();
@@ -88,7 +101,6 @@ app.UseHttpsRedirection();
 app.UseAuthentication();
 app.UseAuthorization();
 
-// Controllers are activated with injected services.
 app.MapControllers();
 
 app.Run();

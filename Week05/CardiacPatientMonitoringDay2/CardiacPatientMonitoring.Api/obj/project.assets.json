@@ -621,6 +621,22 @@
           "build/net10.0/Microsoft.EntityFrameworkCore.Design.props": {}
         }
       },
+      "Microsoft.EntityFrameworkCore.InMemory/10.0.10": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.EntityFrameworkCore": "10.0.10"
+        },
+        "compile": {
+          "lib/net10.0/Microsoft.EntityFrameworkCore.InMemory.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net10.0/Microsoft.EntityFrameworkCore.InMemory.dll": {
+            "related": ".xml"
+          }
+        }
+      },
       "Microsoft.EntityFrameworkCore.Relational/10.0.10": {
         "type": "package",
         "dependencies": {
@@ -2571,6 +2587,21 @@
         "microsoft.entityframeworkcore.design.nuspec"
       ]
     },
+    "Microsoft.EntityFrameworkCore.InMemory/10.0.10": {
+      "sha512": "QRsBDbyAoEVwPu/jesXXs4/uomaA577+hl+HsPfSuFq+uxAd6TyAklU/+OB/7bYvb+eikDuC41VTEFz9l79otA==",
+      "type": "package",
+      "path": "microsoft.entityframeworkcore.inmemory/10.0.10",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "Icon.png",
+        "PACKAGE.md",
+        "lib/net10.0/Microsoft.EntityFrameworkCore.InMemory.dll",
+        "lib/net10.0/Microsoft.EntityFrameworkCore.InMemory.xml",
+        "microsoft.entityframeworkcore.inmemory.10.0.10.nupkg.sha512",
+        "microsoft.entityframeworkcore.inmemory.nuspec"
+      ]
+    },
     "Microsoft.EntityFrameworkCore.Relational/10.0.10": {
       "sha512": "wNonj40aZxia+GtuBiiD6ZqVh4h6y5Nje1bGdmzZ8/ui0QRsAN+S0SIrLHFCEGbG9cDbeaE40sh+Lr7o9rRs6g==",
       "type": "package",
@@ -3628,6 +3659,7 @@
       "Microsoft.AspNetCore.Identity.EntityFrameworkCore >= 10.0.10",
       "Microsoft.AspNetCore.OpenApi >= 10.0.10",
       "Microsoft.EntityFrameworkCore.Design >= 10.0.10",
+      "Microsoft.EntityFrameworkCore.InMemory >= 10.0.10",
       "Microsoft.EntityFrameworkCore.SqlServer >= 10.0.10",
       "Swashbuckle.AspNetCore >= 10.2.3"
     ]
@@ -3691,6 +3723,10 @@
           },
           "Microsoft.EntityFrameworkCore.Design": {
             "suppressParent": "All",
+            "target": "Package",
+            "version": "[10.0.10, )"
+          },
+          "Microsoft.EntityFrameworkCore.InMemory": {
             "target": "Package",
             "version": "[10.0.10, )"
           },
