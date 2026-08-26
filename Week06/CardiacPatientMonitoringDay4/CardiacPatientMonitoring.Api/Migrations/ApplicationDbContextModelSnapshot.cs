@@ -235,6 +235,10 @@ namespace CardiacPatientMonitoring.Api.Migrations
                     b.Property<int>("CustomerId")
                         .HasColumnType("int");
 
+                    b.Property<decimal>("OrderTotal")
+                        .HasPrecision(18, 2)
+                        .HasColumnType("decimal(18,2)");
+
                     b.Property<string>("Status")
                         .IsRequired()
                         .HasMaxLength(30)
@@ -254,6 +258,10 @@ namespace CardiacPatientMonitoring.Api.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<decimal>("LineTotal")
+                        .HasPrecision(18, 2)
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<int>("OrderId")
                         .HasColumnType("int");
@@ -330,6 +338,10 @@ namespace CardiacPatientMonitoring.Api.Migrations
                         .HasMaxLength(120)
                         .HasColumnType("nvarchar(120)");
 
+                    b.Property<decimal>("UnitPrice")
+                        .HasPrecision(18, 2)
+                        .HasColumnType("decimal(18,2)");
+
                     b.Property<int>("StockQuantity")
                         .HasColumnType("int");
 
@@ -342,7 +354,8 @@ namespace CardiacPatientMonitoring.Api.Migrations
                         {
                             Id = 1,
                             Name = "Remote ECG Monitor",
-                            StockQuantity = 5
+                            StockQuantity = 5,
+                            UnitPrice = 125.00m
                         });
                 });
 

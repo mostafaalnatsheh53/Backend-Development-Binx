@@ -6,6 +6,7 @@ using CardiacPatientMonitoring.Api.DTOs;
 using CardiacPatientMonitoring.Api.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Storage;
 using Microsoft.IdentityModel.Tokens;
 
 namespace CardiacPatientMonitoring.Api.Services;
@@ -506,68 +507,84 @@ public class OrderService(ApplicationDbContext db) : IOrderService
         if (d.Items is null || d.Items.Count == 0)
             throw new ArgumentException("An order must contain at least one item.");
 
-        if (!await db.Patients.AnyAsync(p => p.Id == d.CustomerId))
-            throw new NotFoundException("Customer not found.");
+        await using var transaction = db.Database.IsRelational()
+            ? await db.Database.BeginTransactionAsync()
+            : null;
 
-        var requestedQuantities = d.Items
-            .GroupBy(item => item.ProductId)
-            .ToDictionary(group => group.Key, group => group.Sum(item => item.Quantity));
-
-        if (requestedQuantities.Values.Any(quantity => quantity <= 0))
-            throw new ArgumentException("Item quantity must be greater than zero.");
-
-        var products = await db.Products
-            .Where(product => requestedQuantities.Keys.Contains(product.Id))
-            .ToDictionaryAsync(product => product.Id);
-
-        foreach (var request in requestedQuantities)
+        try
         {
-            if (!products.TryGetValue(request.Key, out var product))
-                throw new NotFoundException($"Product {request.Key} not found.");
+            if (!await db.Patients.AnyAsync(p => p.Id == d.CustomerId))
+                throw new NotFoundException("Customer not found.");
 
-            if (product.StockQuantity < request.Value)
-                throw new ArgumentException(
-                    $"Insufficient stock for product {product.Id}. Available: {product.StockQuantity}.");
-        }
+            var requestedQuantities = d.Items
+                .GroupBy(item => item.ProductId)
+                .ToDictionary(group => group.Key, group => group.Sum(item => item.Quantity));
 
-        foreach (var request in requestedQuantities)
-            products[request.Key].StockQuantity -= request.Value;
+            if (requestedQuantities.Values.Any(quantity => quantity <= 0))
+                throw new ArgumentException("Item quantity must be greater than zero.");
 
-        var orderItems = requestedQuantities.Select(request =>
-        {
-            var product = products[request.Key];
-            var lineTotal = product.UnitPrice * request.Value;
+            var products = await db.Products
+                .Where(product => requestedQuantities.Keys.Contains(product.Id))
+                .ToDictionaryAsync(product => product.Id);
 
-            return new OrderItem
+            foreach (var request in requestedQuantities)
             {
-                ProductId = request.Key,
-                Quantity = request.Value,
-                LineTotal = lineTotal
+                if (!products.TryGetValue(request.Key, out var product))
+                    throw new NotFoundException($"Product {request.Key} not found.");
+
+                if (product.StockQuantity < request.Value)
+                    throw new ArgumentException(
+                        $"Insufficient stock for product {product.Id}. Available: {product.StockQuantity}.");
+            }
+
+            foreach (var request in requestedQuantities)
+                products[request.Key].StockQuantity -= request.Value;
+
+            var orderItems = requestedQuantities.Select(request =>
+            {
+                var product = products[request.Key];
+                var lineTotal = product.UnitPrice * request.Value;
+
+                return new OrderItem
+                {
+                    ProductId = request.Key,
+                    Quantity = request.Value,
+                    LineTotal = lineTotal
+                };
+            }).ToList();
+
+            var order = new Order
+            {
+                CustomerId = d.CustomerId,
+                CreatedAt = DateTime.UtcNow,
+                Status = "Created",
+                OrderTotal = orderItems.Sum(item => item.LineTotal),
+                Items = orderItems
             };
-        }).ToList();
 
-        var order = new Order
+            db.Orders.Add(order);
+            await db.SaveChangesAsync();
+            if (transaction is not null)
+                await transaction.CommitAsync();
+
+            return new OrderResponseDto(
+                order.Id,
+                order.CustomerId,
+                order.Status,
+                order.CreatedAt,
+                order.OrderTotal,
+                order.Items.Select(item => new OrderItemResponseDto(
+                    item.ProductId,
+                    item.Quantity,
+                    products[item.ProductId].UnitPrice,
+                    item.LineTotal)).ToList());
+        }
+        catch
         {
-            CustomerId = d.CustomerId,
-            CreatedAt = DateTime.UtcNow,
-            Status = "Created",
-            OrderTotal = orderItems.Sum(item => item.LineTotal),
-            Items = orderItems
-        };
+            if (transaction is not null)
+                await transaction.RollbackAsync();
 
-        db.Orders.Add(order);
-        await db.SaveChangesAsync();
-
-        return new OrderResponseDto(
-            order.Id,
-            order.CustomerId,
-            order.Status,
-            order.CreatedAt,
-            order.OrderTotal,
-            order.Items.Select(item => new OrderItemResponseDto(
-                item.ProductId,
-                item.Quantity,
-                products[item.ProductId].UnitPrice,
-                item.LineTotal)).ToList());
+            throw;
+        }
     }
 }
