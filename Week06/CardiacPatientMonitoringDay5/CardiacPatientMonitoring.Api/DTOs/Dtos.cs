@@ -1,0 +1,160 @@
+using System.ComponentModel.DataAnnotations;
+
+namespace CardiacPatientMonitoring.Api.DTOs;
+
+public record RegisterDto(
+    [Required, EmailAddress] string Email,
+    [Required, MinLength(6)] string Password);
+
+public record LoginDto(
+    [Required, EmailAddress] string Email,
+    [Required] string Password);
+
+public record AuthResponseDto(
+    string Token,
+    DateTime ExpiresAt);
+
+public class PatientRequestDto
+{
+    [Required, StringLength(80)]
+    public string FirstName { get; set; } = "";
+
+    [Required, StringLength(80)]
+    public string LastName { get; set; } = "";
+
+    public DateOnly DateOfBirth { get; set; }
+
+    [Required, StringLength(20)]
+    public string Gender { get; set; } = "";
+
+    [Phone]
+    public string? PhoneNumber { get; set; }
+}
+
+public record PatientResponseDto(
+    int Id,
+    string FirstName,
+    string LastName,
+    DateOnly DateOfBirth,
+    string Gender,
+    string? PhoneNumber);
+
+public record PatientCatalogQuery(
+    int Page = 1,
+    int PageSize = 10,
+    string? Search = null,
+    string? Gender = null,
+    DateOnly? BornBefore = null,
+    string Sort = "nameAsc");
+
+public record PagedResponseDto<T>(
+    IReadOnlyList<T> Items,
+    int Page,
+    int PageSize,
+    int TotalCount,
+    int TotalPages);
+
+public class VitalSignRequestDto
+{
+    [Range(1, 300)]
+    public decimal HeartRate { get; set; }
+
+    [Range(50, 300)]
+    public decimal SystolicBloodPressure { get; set; }
+
+    [Range(30, 200)]
+    public decimal DiastolicBloodPressure { get; set; }
+
+    [Range(30, 45)]
+    public decimal? TemperatureCelsius { get; set; }
+
+    public DateTime RecordedAt { get; set; }
+}
+
+public record VitalSignResponseDto(
+    int Id,
+    int PatientId,
+    decimal HeartRate,
+    decimal SystolicBloodPressure,
+    decimal DiastolicBloodPressure,
+    decimal? TemperatureCelsius,
+    DateTime RecordedAt);
+
+public class MedicationRequestDto
+{
+    [Required, StringLength(120)]
+    public string Name { get; set; } = "";
+
+    [Required, StringLength(80)]
+    public string Dosage { get; set; } = "";
+
+    [Required, StringLength(80)]
+    public string Frequency { get; set; } = "";
+
+    public DateOnly StartDate { get; set; }
+
+    public DateOnly? EndDate { get; set; }
+}
+
+public record MedicationResponseDto(
+    int Id,
+    int PatientId,
+    string Name,
+    string Dosage,
+    string Frequency,
+    DateOnly StartDate,
+    DateOnly? EndDate);
+
+public class AppointmentRequestDto
+{
+    public DateTime ScheduledAt { get; set; }
+
+    [Required, StringLength(100)]
+    public string ClinicianName { get; set; } = "";
+
+    [Required, StringLength(300)]
+    public string Reason { get; set; } = "";
+
+    [Required, RegularExpression("^(Scheduled|Completed|Cancelled)$")]
+    public string Status { get; set; } = "Scheduled";
+}
+
+public record AppointmentResponseDto(
+    int Id,
+    int PatientId,
+    DateTime ScheduledAt,
+    string ClinicianName,
+    string Reason,
+    string Status);
+
+public class CreateOrderRequestDto
+{
+    [Range(1, int.MaxValue)]
+    public int CustomerId { get; set; }
+
+    [Required, MinLength(1)]
+    public List<CreateOrderItemDto> Items { get; set; } = [];
+}
+
+public class CreateOrderItemDto
+{
+    [Range(1, int.MaxValue)]
+    public int ProductId { get; set; }
+
+    [Range(1, int.MaxValue)]
+    public int Quantity { get; set; }
+}
+
+public record OrderResponseDto(
+    int Id,
+    int CustomerId,
+    string Status,
+    DateTime CreatedAt,
+    decimal OrderTotal,
+    IReadOnlyList<OrderItemResponseDto> Items);
+
+public record OrderItemResponseDto(
+    int ProductId,
+    int Quantity,
+    decimal UnitPrice,
+    decimal LineTotal);
