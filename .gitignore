@@ -1,0 +1,57 @@
+# Build output and generated .NET files
+[Bb]in/
+[Oo]bj/
+TestResults/
+[Dd]ebug/
+[Rr]elease/
+x64/
+x86/
+arm64/
+artifacts/
+
+# Visual Studio and VS Code user-specific files
+.vs/
+.vscode/
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# NuGet and package artifacts
+*.nupkg
+*.snupkg
+.nuget/
+packages/
+
+# Test and code coverage output
+coverage/
+coverage*.json
+*.coverage
+*.coveragexml
+
+# Local development configuration and secrets
+.env
+.env.*
+*.local.json
+secrets.json
+secrets.*.json
+appsettings.*.json
+!**/appsettings.json
+
+# Local databases and application logs
+*.db
+*.sqlite
+*.sqlite3
+*.mdf
+*.ldf
+*.log
+logs/
+
+# OS-generated files
+.DS_Store
+.AppleDouble
+.LSOverride
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/

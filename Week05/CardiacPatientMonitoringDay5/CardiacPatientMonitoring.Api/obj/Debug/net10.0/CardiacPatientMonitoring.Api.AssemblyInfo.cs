@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("CardiacPatientMonitoring.Api")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+4d474efff5161ba2e0cc9d2ac490e1efb7d377b2")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+56623f4ee84a0c47115b93e90a83c658dd433d7c")]
 [assembly: System.Reflection.AssemblyProductAttribute("CardiacPatientMonitoring.Api")]
 [assembly: System.Reflection.AssemblyTitleAttribute("CardiacPatientMonitoring.Api")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

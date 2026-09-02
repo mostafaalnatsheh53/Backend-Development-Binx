@@ -31,7 +31,8 @@ public class AuthController(IAuthService s) : ControllerBase
 [ApiController]
 [Authorize]
 [Route("api/patients")]
-public class PatientsController(IPatientService s) : ControllerBase
+//[Route("api/patients/{id:int}")]
+public class PatientsController(IPatientService s) : ControllerBase // ControllerBase is the base class for an MVC controller without view support. It provides access to common features such as model binding, validation, and action results.
 {
     [HttpGet]
     [ProducesResponseType<IEnumerable<PatientResponseDto>>(200)]
@@ -69,7 +70,8 @@ public class PatientsController(IPatientService s) : ControllerBase
     [ProducesResponseType(404)]
     public async Task<IActionResult> Update(
         int id,
-        PatientRequestDto d)
+        //PatientRequestDto d)  
+        PatientRequestDto d) 
     {
         await s.UpdateAsync(id, d);
 

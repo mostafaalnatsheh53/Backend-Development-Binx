@@ -39,7 +39,9 @@ public class RiskScoreCalculatorTests
     [Fact]
     public void CalculateRiskScore_WhenBloodPressureIsHigh_AddsPressurePenalty()
     {
-        // Arrange
+        // Arrange 
+        //what is arrange?
+        // Arrange is the first step in a unit test where you set up the necessary objects, variables, and state needed for the test. It involves preparing the environment and inputs that will be used in the test. In this case, it includes creating an instance of the RiskScoreCalculator and defining the heart rate, systolic pressure, and diastolic pressure values that will be passed to the method being tested.
         var calculator = new RiskScoreCalculator();
         var heartRate = 72;
         var systolicPressure = 150;
