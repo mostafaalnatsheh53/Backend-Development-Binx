@@ -40,7 +40,7 @@ The effective request flow is exception handling, correlation ID middleware, HTT
 - **Commit:** To be recorded after the final test run.
 - **Pull Request title:** `feat(week07): complete Day 4 middleware lab`
 - **Pull Request summary:** Add correlation-ID middleware, verify it across anonymous, protected, and exception endpoints, and document the existing JWT/RBAC pipeline and verification.
-- **Pull Request link:** Not verified in the current environment.
+- **Pull Request link:** Creation URL provided by GitHub: https://github.com/mostafaalnatsheh53/Backend-Development-Binx/pull/new/feature/week07-day3-rbac-ownership. The Pull Request itself is not created.
 - **Reviewer:** Not verified in the current environment.
 - **Feedback addressed:** No mentor feedback was found in the Day 4 project or available Git history.
 
@@ -55,6 +55,6 @@ The effective request flow is exception handling, correlation ID middleware, HTT
 | RBAC verified | Complete by existing role and ownership integration tests. |
 | Tests executed | Complete: final full run passed 36/36 tests; focused middleware run passed 3/3. |
 | Branch status | Active branch is `feature/week07-day3-rbac-ownership`. |
-| Pull Request status | Not created or link-verified in the current environment. |
+| Pull Request status | Not created; GitHub creation URL is available above. |
 | Mentor review status | Not verified in the current environment. |
 | Remaining manual steps | Push the commit and create the Pull Request, then add the actual link and reviewer when available. |

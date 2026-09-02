@@ -65,7 +65,7 @@ Existing tests verify registration and login JWT claims, rejection of unauthenti
 
 ### Pull Request
 
-The active branch is `feature/week07-day3-rbac-ownership`. The intended title is `feat(week07): complete Day 4 middleware lab`. A Pull Request link, remote push result, and reviewer are not verified in the current environment.
+The active branch is `feature/week07-day3-rbac-ownership`. The intended title is `feat(week07): complete Day 4 middleware lab`. The branch was pushed successfully. GitHub provided this creation URL: https://github.com/mostafaalnatsheh53/Backend-Development-Binx/pull/new/feature/week07-day3-rbac-ownership. The Pull Request itself was not created because GitHub CLI is unavailable.
 
 ### Mentor Review
 
@@ -119,7 +119,7 @@ The test build reports the existing `NU1900` warning because the NuGet vulnerabi
 | Endpoint Verification | Automated verification passed for auth, protected patient, and exception endpoints. Manual/Postman verification is not verified in the current environment. |
 | Automated Tests | Final full run passed 36/36; focused middleware run passed 3/3. |
 | Sprint 2 Branch | Active branch: `feature/week07-day3-rbac-ownership`. |
-| Pull Request | Not created or link-verified in the current environment. |
+| Pull Request | Not created; GitHub creation URL is available above. |
 | Mentor Review | Not verified in the current environment. |
 
 Remaining manual steps: run Postman if desired, push the final commit, create the Pull Request, and update this documentation with the actual PR link, reviewer, and mentor feedback.
