@@ -1,0 +1,81 @@
+{
+  "info": {
+    "name": "Cardiac Patient Monitoring API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    { "key": "baseUrl", "value": "https://localhost:7213" },
+    { "key": "token", "value": "" },
+    { "key": "patientId", "value": "1" },
+    { "key": "vitalSignId", "value": "1" },
+    { "key": "medicationId", "value": "1" },
+    { "key": "appointmentId", "value": "1" }
+  ],
+  "item": [
+    {
+      "name": "Middleware",
+      "item": [
+        {
+          "name": "GET Controlled Exception",
+          "event": [{ "listen": "test", "script": { "exec": ["pm.test('exception middleware returns a server error response', function () { pm.response.to.have.status(500); });"] } }],
+          "request": { "method": "GET", "url": "{{baseUrl}}/api/test/exception" }
+        }
+      ]
+    },
+    {
+      "name": "Authentication",
+      "item": [
+        {
+          "name": "Register",
+          "event": [{ "listen": "test", "script": { "exec": ["pm.test('register returns creation or validation status', function () { pm.expect([201, 400]).to.include(pm.response.code); });"] } }],
+          "request": { "method": "POST", "header": [{ "key": "Content-Type", "value": "application/json" }], "url": "{{baseUrl}}/api/auth/register", "body": { "mode": "raw", "raw": "{\"email\":\"demo@example.com\",\"password\":\"Demo123\",\"firstName\":\"Demo\",\"lastName\":\"Patient\",\"dateOfBirth\":\"1990-01-01\",\"gender\":\"Other\",\"phoneNumber\":\"555-0102\"}" } }
+        },
+        {
+          "name": "Login",
+          "event": [{ "listen": "test", "script": { "exec": ["pm.test('login succeeds', function () { pm.response.to.have.status(200); });", "pm.test('login returns a token', function () { var body = pm.response.json(); pm.expect(body.token).to.be.a('string').and.not.empty; pm.collectionVariables.set('token', body.token); });"] } }],
+          "request": { "method": "POST", "header": [{ "key": "Content-Type", "value": "application/json" }], "url": "{{baseUrl}}/api/auth/login", "body": { "mode": "raw", "raw": "{\"email\":\"demo@example.com\",\"password\":\"Demo123\"}" } }
+        }
+      ]
+    },
+    {
+      "name": "Patients",
+      "item": [
+        { "name": "GET All", "event": [{ "listen": "test", "script": { "exec": ["pm.test('patient catalog returns a documented status', function () { pm.expect([200, 401, 403]).to.include(pm.response.code); });"] } }], "request": { "method": "GET", "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }], "url": "{{baseUrl}}/api/patients?search=Demo" } },
+        { "name": "GET By Id", "event": [{ "listen": "test", "script": { "exec": ["pm.test('patient lookup returns a documented status', function () { pm.expect([200, 401, 403, 404]).to.include(pm.response.code); });"] } }], "request": { "method": "GET", "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }], "url": "{{baseUrl}}/api/patients/{{patientId}}" } },
+        { "name": "POST Create", "event": [{ "listen": "test", "script": { "exec": ["pm.test('patient creation returns a documented status', function () { pm.expect([201, 400, 401, 403]).to.include(pm.response.code); });"] } }], "request": { "method": "POST", "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }, { "key": "Content-Type", "value": "application/json" }], "url": "{{baseUrl}}/api/patients", "body": { "mode": "raw", "raw": "{\"firstName\":\"Maya\",\"lastName\":\"Patel\",\"dateOfBirth\":\"1987-04-12\",\"gender\":\"Female\",\"phoneNumber\":\"555-0102\"}" } } },
+        { "name": "PUT Update", "event": [{ "listen": "test", "script": { "exec": ["pm.test('patient update returns a documented status', function () { pm.expect([204, 400, 401, 403, 404]).to.include(pm.response.code); });"] } }], "request": { "method": "PUT", "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }, { "key": "Content-Type", "value": "application/json" }], "url": "{{baseUrl}}/api/patients/{{patientId}}", "body": { "mode": "raw", "raw": "{\"firstName\":\"Maya\",\"lastName\":\"Patel\",\"dateOfBirth\":\"1987-04-12\",\"gender\":\"Female\",\"phoneNumber\":\"555-0103\"}" } } },
+        { "name": "DELETE", "event": [{ "listen": "test", "script": { "exec": ["pm.test('patient deletion returns a documented status', function () { pm.expect([204, 401, 403, 404]).to.include(pm.response.code); });"] } }], "request": { "method": "DELETE", "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }], "url": "{{baseUrl}}/api/patients/{{patientId}}" } }
+      ]
+    },
+    {
+      "name": "VitalSigns",
+      "item": [
+        { "name": "POST Create", "event": [{ "listen": "test", "script": { "exec": ["pm.test('vital sign creation returns a documented status', function () { pm.expect([201, 400, 401, 403, 404]).to.include(pm.response.code); });"] } }], "request": { "method": "POST", "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }, { "key": "Content-Type", "value": "application/json" }], "url": "{{baseUrl}}/api/patients/{{patientId}}/vital-signs", "body": { "mode": "raw", "raw": "{\"heartRate\":72,\"systolicBloodPressure\":120,\"diastolicBloodPressure\":80,\"temperatureCelsius\":36.8,\"recordedAt\":\"2026-09-14T10:00:00Z\"}" } } },
+        { "name": "GET List", "event": [{ "listen": "test", "script": { "exec": ["pm.test('vital sign list returns a documented status', function () { pm.expect([200, 401, 403, 404]).to.include(pm.response.code); });"] } }], "request": { "method": "GET", "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }], "url": "{{baseUrl}}/api/patients/{{patientId}}/vital-signs" } },
+        { "name": "GET By Id", "event": [{ "listen": "test", "script": { "exec": ["pm.test('vital sign lookup returns a documented status', function () { pm.expect([200, 401, 403, 404]).to.include(pm.response.code); });"] } }], "request": { "method": "GET", "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }], "url": "{{baseUrl}}/api/vital-signs/{{vitalSignId}}" } },
+        { "name": "PUT Update", "event": [{ "listen": "test", "script": { "exec": ["pm.test('vital sign update returns a documented status', function () { pm.expect([204, 400, 401, 403, 404]).to.include(pm.response.code); });"] } }], "request": { "method": "PUT", "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }, { "key": "Content-Type", "value": "application/json" }], "url": "{{baseUrl}}/api/vital-signs/{{vitalSignId}}", "body": { "mode": "raw", "raw": "{\"heartRate\":75,\"systolicBloodPressure\":122,\"diastolicBloodPressure\":82,\"temperatureCelsius\":36.8,\"recordedAt\":\"2026-09-14T10:30:00Z\"}" } } },
+        { "name": "DELETE", "event": [{ "listen": "test", "script": { "exec": ["pm.test('vital sign deletion returns a documented status', function () { pm.expect([204, 401, 403, 404]).to.include(pm.response.code); });"] } }], "request": { "method": "DELETE", "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }], "url": "{{baseUrl}}/api/vital-signs/{{vitalSignId}}" } }
+      ]
+    },
+    {
+      "name": "Medications",
+      "item": [
+        { "name": "POST Create", "event": [{ "listen": "test", "script": { "exec": ["pm.test('medication creation returns a documented status', function () { pm.expect([201, 400, 401, 403, 404]).to.include(pm.response.code); });"] } }], "request": { "method": "POST", "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }, { "key": "Content-Type", "value": "application/json" }], "url": "{{baseUrl}}/api/patients/{{patientId}}/medications", "body": { "mode": "raw", "raw": "{\"name\":\"Lisinopril\",\"dosage\":\"10 mg\",\"frequency\":\"Daily\",\"startDate\":\"2026-09-14\"}" } } },
+        { "name": "GET List", "event": [{ "listen": "test", "script": { "exec": ["pm.test('medication list returns a documented status', function () { pm.expect([200, 401, 403, 404]).to.include(pm.response.code); });"] } }], "request": { "method": "GET", "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }], "url": "{{baseUrl}}/api/patients/{{patientId}}/medications" } },
+        { "name": "GET By Id", "event": [{ "listen": "test", "script": { "exec": ["pm.test('medication lookup returns a documented status', function () { pm.expect([200, 401, 403, 404]).to.include(pm.response.code); });"] } }], "request": { "method": "GET", "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }], "url": "{{baseUrl}}/api/medications/{{medicationId}}" } },
+        { "name": "PUT Update", "event": [{ "listen": "test", "script": { "exec": ["pm.test('medication update returns a documented status', function () { pm.expect([204, 400, 401, 403, 404]).to.include(pm.response.code); });"] } }], "request": { "method": "PUT", "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }, { "key": "Content-Type", "value": "application/json" }], "url": "{{baseUrl}}/api/medications/{{medicationId}}", "body": { "mode": "raw", "raw": "{\"name\":\"Lisinopril\",\"dosage\":\"20 mg\",\"frequency\":\"Daily\",\"startDate\":\"2026-09-14\"}" } } },
+        { "name": "DELETE", "event": [{ "listen": "test", "script": { "exec": ["pm.test('medication deletion returns a documented status', function () { pm.expect([204, 401, 403, 404]).to.include(pm.response.code); });"] } }], "request": { "method": "DELETE", "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }], "url": "{{baseUrl}}/api/medications/{{medicationId}}" } }
+      ]
+    },
+    {
+      "name": "Appointments",
+      "item": [
+        { "name": "POST Create", "event": [{ "listen": "test", "script": { "exec": ["pm.test('appointment creation returns a documented status', function () { pm.expect([201, 400, 401, 403, 404]).to.include(pm.response.code); });"] } }], "request": { "method": "POST", "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }, { "key": "Content-Type", "value": "application/json" }], "url": "{{baseUrl}}/api/patients/{{patientId}}/appointments", "body": { "mode": "raw", "raw": "{\"scheduledAt\":\"2026-10-01T09:00:00Z\",\"clinicianName\":\"Dr Demo\",\"reason\":\"Routine review\",\"status\":\"Scheduled\"}" } } },
+        { "name": "GET List", "event": [{ "listen": "test", "script": { "exec": ["pm.test('appointment list returns a documented status', function () { pm.expect([200, 401, 403, 404]).to.include(pm.response.code); });"] } }], "request": { "method": "GET", "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }], "url": "{{baseUrl}}/api/patients/{{patientId}}/appointments" } },
+        { "name": "GET By Id", "event": [{ "listen": "test", "script": { "exec": ["pm.test('appointment lookup returns a documented status', function () { pm.expect([200, 401, 403, 404]).to.include(pm.response.code); });"] } }], "request": { "method": "GET", "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }], "url": "{{baseUrl}}/api/appointments/{{appointmentId}}" } },
+        { "name": "PUT Update", "event": [{ "listen": "test", "script": { "exec": ["pm.test('appointment update returns a documented status', function () { pm.expect([204, 400, 401, 403, 404]).to.include(pm.response.code); });"] } }], "request": { "method": "PUT", "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }, { "key": "Content-Type", "value": "application/json" }], "url": "{{baseUrl}}/api/appointments/{{appointmentId}}", "body": { "mode": "raw", "raw": "{\"scheduledAt\":\"2026-10-02T09:00:00Z\",\"clinicianName\":\"Dr Demo\",\"reason\":\"Follow-up review\",\"status\":\"Completed\"}" } } },
+        { "name": "DELETE", "event": [{ "listen": "test", "script": { "exec": ["pm.test('appointment deletion returns a documented status', function () { pm.expect([204, 401, 403, 404]).to.include(pm.response.code); });"] } }], "request": { "method": "DELETE", "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }], "url": "{{baseUrl}}/api/appointments/{{appointmentId}}" } }
+      ]
+    }
+  ]
+}
